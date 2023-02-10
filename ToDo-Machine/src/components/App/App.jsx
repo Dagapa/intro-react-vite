@@ -29,10 +29,18 @@ function App() {
   } = useTodos()
   return (
     <React.Fragment>
-      <TodoHeader>
-        <TodoCounter totalTodos={totalTodos} completedTodos={completedTodos} />
+      <TodoHeader
+        loading={loading}
+      >
+        <TodoCounter
+          totalTodos={totalTodos}
+          completedTodos={completedTodos}
+        />
 
-        <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
+        <TodoSearch
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
       </TodoHeader>
 
       <TodoList
@@ -56,14 +64,14 @@ function App() {
       //   />
       // )}
       >{(todo) => (
-          <TodoItem
-            key={todo.text}
-            text={todo.text}
-            completed={todo.completed}
-            onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        )}
+        <TodoItem
+          key={todo.text}
+          text={todo.text}
+          completed={todo.completed}
+          onComplete={() => completeTodo(todo.text)}
+          onDelete={() => deleteTodo(todo.text)}
+        />
+      )}
 
       </TodoList>
 
