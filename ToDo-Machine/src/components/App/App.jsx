@@ -8,6 +8,9 @@ import { TodoForm } from "../TodoForm/TodoForm";
 import { TodoList } from "../TodoList/TodoList";
 import { TodoItem } from "../TodoItem/TodoItem";
 import { Modal } from "../Modal/modal";
+import { TodosLoading } from "../TodoLoading/TodosLoading";
+import { TodosError } from "../TodoError/TodoError";
+import { EmptyTodos } from "../EmptyTodos/EmptyTodos";
 
 function App() {
   const {
@@ -32,11 +35,27 @@ function App() {
         <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       </TodoHeader>
 
-      <TodoList>
-        {loading && <p>Estamos cargando, no desesperes...</p>}
-        {!loading && !searchedTodos.length && <p>¡Crea tu primer TODO!</p>}
+      <TodoList
+        error={error}
+        loading={loading}
+        searchedTodos={searchedTodos}
+        totalTodos={totalTodos}
+        searchText={searchValue}
 
-        {searchedTodos.map((todo) => (
+        onError={() => <TodosError />}
+        onLoading={() => <TodosLoading />}
+        onEmptyTodos={() => <EmptyTodos />}
+        onEmptySearch={(searchText) => <p>No hay resultados para {searchText}</p>}
+      // render={(todo) => (
+      //   <TodoItem
+      //     key={todo.text}
+      //     text={todo.text}
+      //     completed={todo.completed}
+      //     onComplete={() => completeTodo(todo.text)}
+      //     onDelete={() => deleteTodo(todo.text)}
+      //   />
+      // )}
+      >{(todo) => (
           <TodoItem
             key={todo.text}
             text={todo.text}
@@ -44,12 +63,13 @@ function App() {
             onComplete={() => completeTodo(todo.text)}
             onDelete={() => deleteTodo(todo.text)}
           />
-        ))}
+        )}
+
       </TodoList>
 
       {!!openModal && (
         <Modal>
-          <TodoForm 
+          <TodoForm
             addTodo={addTodo}
             setOpenModal={setOpenModal}
           />
